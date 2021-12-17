@@ -3,14 +3,18 @@ Kleuren = ["klaveren", "ruiten", "schoppen", "harten"]
 Kaarten = ["boer", "vrouw", "heer", "aas", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 DeckList = []
 
-for x in range(1,8):
-    Deck = random.choice(Kleuren) +  ' ' + random.choice(Kaarten)
-    print(f'Kaart {x}: {Deck}')
+for x in Kleuren:
+    for y in Kaarten:
+        Deck = x + ' ' + y
+        DeckList.append(Deck)
 
+for z in range(2):
+    DeckList.append('joker')
 
-for x in range(47):
-    Deck1 = random.choice(Deck)
-    DeckList.append(Deck1)
+random.shuffle(DeckList)
+for u in range(1,8):
+    Kaarten7 = DeckList.pop()
+    print(f'Kaart {u}: {Kaarten7}')
 
-
-print(DeckList)
+print()
+print('Deck (47 kaarten) =', DeckList)
