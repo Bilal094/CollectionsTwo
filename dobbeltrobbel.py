@@ -1,22 +1,66 @@
-import random 
+import random, time
 from random import choice
+from time import sleep
 # Assignments
-Blauw = [1, 2, 3, 4, 5, 6]
-Rood = [1, 2, 3, 4, 5, 6]
-Wit = [1, 1, 1, 2, 2, 3]
-BlauwScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-RoodScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+BlauwDobbelsteen = [1, 2, 3, 4, 5, 6]
+RoodDobbelsteen = [1, 2, 3, 4, 5, 6]
+WitDobbelsteen = [1, 1, 1, 2, 2, 3]
+RoodMin2 = -2
+BlauwMin2 = -2
+RoodScoreBlad = [RoodMin2, " ", " ", " ", " ", " ", " ", " ", " ", " "]
+BlauwScoreBlad = [" ", " ", " ", " ", " ", " ", " ", " ", " ", BlauwMin2]
+WitScoreBlad = [" ", " ", " ", " ", " "]
+Herhalen = 0
+Ronde = 0
+ScoreRood = ''
+ScoreBlauw = ''
+ScoreWit = ''
 
-def scoreBlad(puntBlauw, puntRood):
-    if puntBlauw == 0 or puntRood == 0:
-        print()
-    else:
-        pass 
-    print('---------------------------------- Score blad ----------------------------------')
-    print('|                                                                             |')
-    print(f'| Blauw: [-2] [{None}] [{None}] [{None}] [{None}] [{None}] [{None}] [{None}] [{None}] [{None}]  |')
-    print(f'| Rood:  [{None}] [{None}] [{None}] [{None}] [{None}] [{None}] [{None}] [{None}] [{None}] [-2]  |')
-    print(f'| Wit:                  [{None}] [{None}] [{None}] [{None}] [{None}]                    |')
+for x in RoodScoreBlad:
+    ScoreRood += '['+str(x)+'] ' 
+for y in BlauwScoreBlad:
+    ScoreBlauw += '['+str(y)+'] '
+for z in WitScoreBlad:
+    ScoreWit += '['+str(z)+'] '
+    
+def error():
+    print('Type a.u.b een gegeven keuze')
+
+def dobbelVraag():
+    global RoodNummer, BlauwNummer, WitNummer
+    DobbelHerhalen = True
+    while DobbelHerhalen:
+        Dobbel = input(f'Type \'1\' om te dobbelen met de 3 dobbelstenen ')
+        if Dobbel == '1':
+            RoodNummer = choice(RoodDobbelsteen)
+            BlauwNummer = choice(BlauwDobbelsteen)
+            WitNummer = choice(WitDobbelsteen)
+            print(f'Rode dobbelsteen resultaat: {RoodNummer}')
+            print(f'Blauwe dobbelsteen resultaat: {BlauwNummer}')
+            print(f'Witte dobbelsteen resultaat: {WitNummer}')
+            DobbelHerhalen = False
+        else:
+            error()
+            DobbelHerhalen = True
 
 
-scoreBlad(0,0)
+
+def scoreBlad():
+    print('------------------------ Score blad ------------------------')
+    print('Rood = '+ ScoreRood)
+    print('Blauw = '+ ScoreBlauw)
+    print('Wit = ' + ScoreWit)
+
+# Code start ---
+dobbelVraag()
+print()
+sleep(2)
+TotaalA = BlauwNummer + RoodNummer + WitNummer
+TotaalB = BlauwNummer + RoodNummer - WitNummer
+TotaalC = BlauwNummer + RoodNummer
+TotaalD = None
+print(f'A) Blauw + rood + wit = getal = {BlauwNummer} + {RoodNummer} + {WitNummer} = {TotaalA}')
+print(f'B) Blauw + rood - wit = getal = {BlauwNummer} + {RoodNummer} - {WitNummer} = {TotaalB}')
+print(f'C) Blauw + rood = getal = {BlauwNummer} + {RoodNummer} = {TotaalC}')
+print(f'D) Hoogst gerolde dobbelsteen - laagst gerolde dobbelsteen = getal = ')
+berekenKeuze = input('Welk getal wil je in de scoreblad zetten? ').upper()
