@@ -12,6 +12,7 @@ BlauwScoreBlad = [" ", " ", " ", " ", " ", " ", " ", " ", " ", BlauwMin2]
 WitScoreBlad = [" ", " ", " ", " ", " "]
 Herhalen = 0
 Ronde = 0
+maximumEnMinimum = []
 ScoreRood = ''
 ScoreBlauw = ''
 ScoreWit = ''
@@ -43,8 +44,6 @@ def dobbelVraag():
             error()
             DobbelHerhalen = True
 
-
-
 def scoreBlad():
     print('------------------------ Score blad ------------------------')
     print('Rood = '+ ScoreRood)
@@ -58,9 +57,18 @@ sleep(2)
 TotaalA = BlauwNummer + RoodNummer + WitNummer
 TotaalB = BlauwNummer + RoodNummer - WitNummer
 TotaalC = BlauwNummer + RoodNummer
-TotaalD = None
-print(f'A) Blauw + rood + wit = getal = {BlauwNummer} + {RoodNummer} + {WitNummer} = {TotaalA}')
-print(f'B) Blauw + rood - wit = getal = {BlauwNummer} + {RoodNummer} - {WitNummer} = {TotaalB}')
-print(f'C) Blauw + rood = getal = {BlauwNummer} + {RoodNummer} = {TotaalC}')
-print(f'D) Hoogst gerolde dobbelsteen - laagst gerolde dobbelsteen = getal = ')
-berekenKeuze = input('Welk getal wil je in de scoreblad zetten? ').upper()
+maximumEnMinimum.append(RoodNummer)
+maximumEnMinimum.append(BlauwNummer)
+maximumEnMinimum.append(WitNummer)
+maxValue = max(maximumEnMinimum)
+minValue = min(maximumEnMinimum)
+TotaalD = maxValue - minValue
+print('Welk getal wil je in de scoreblad zetten? ')
+print(f'A) Blauw + rood + wit = {BlauwNummer} + {RoodNummer} + {WitNummer} = {TotaalA}')
+print(f'B) Blauw + rood - wit = {BlauwNummer} + {RoodNummer} - {WitNummer} = {TotaalB}')
+print(f'C) Blauw + rood = {BlauwNummer} + {RoodNummer} = {TotaalC}')
+print(f'D) Hoogst gerolde dobbelsteen - laagst gerolde dobbelsteen = {maxValue} - {minValue} = {TotaalD}')
+berekeningKeuze = input('').upper()
+if berekeningKeuze == 'A':
+    maximumEnMinimum.pop(2)
+    if 
