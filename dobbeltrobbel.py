@@ -12,7 +12,8 @@ BlauwScoreBladList = [" ", " ", " ", " ", " ", " ", " ", " ", " ", BlauwMin2]
 WitScoreBladList = [" ", " ", " ", " ", " "]
 ScoreBladPositieListRood = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 ScoreBladPositieListBlauw = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-Ronde = 0
+ScoreBladRoodCheck = [-2, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+ScoreBladBlauwCheck = [0, 0, 0, 0, 0, 0, 0, 0, 0, -2]
 maximumEnMinimum = []
 ScoreRood = ''
 ScoreBlauw = ''
@@ -34,6 +35,9 @@ for a in ScoreBladPositieListRood:
     
 def error():
     print('Type a.u.b een gegeven keuze')
+
+def positieError():
+    print('Jouw getal is groter dan de getallen ernaast! Je moet het op volgorde invullen.')
 
 def waardenIdentiek(keuze):
         print(f'Je hebt gekozen voor het getal {keuze}')
@@ -83,8 +87,54 @@ def positieKeuze(keuze):
     berekeningAenB()
     sleep(1.5)
     scoreBlad()
-    ScoreKeuze = input('Type het nummer waar jij je getal in wilt vullen ')
-       
+    HerhalenScore = True
+    if maximumEnMinimum[0] > maximumEnMinimum[1]:
+        print()
+        ScoreKeuzeBlauw = input('Type het nummer waar jij je getal in wilt vullen (Blauw) ')
+        if ScoreKeuzeBlauw in ScoreBladPositieListBlauw:
+            while HerhalenScore:
+
+                if ScoreKeuzeBlauw == "1":
+                    HerhalenScore = False
+                    HerhalenScoreBlad = True
+                    while HerhalenScoreBlad:
+                        if berekeningKeuze == "A" and TotaalA > ScoreBladBlauwCheck[2]:
+                            BlauwScoreBladList[0] = TotaalA
+                            break
+                        elif berekeningKeuze == "B" and TotaalB > ScoreBladBlauwCheck[2]:
+                            BlauwScoreBladList[0] = TotaalB
+                            break
+                        else:
+                           positieError()
+                           HerhalenScoreBlad = True
+                           
+
+                else:
+                    error()
+                    HerhalenScore = True
+
+
+    elif maximumEnMinimum[0] < maximumEnMinimum[1]:
+        print()
+        ScoreKeuzeRood = input('Type het nummer waar jij je getal in wilt vullen (Rood) ')
+        if ScoreKeuzeRood in ScoreBladPositieListRood:
+            while HerhalenScore:
+
+                if ScoreKeuzeRood == "1":
+                    HerhalenScore = False
+                    HerhalenScoreBlad = True
+                    while HerhalenScoreBlad:
+                        if berekeningKeuze == "A" and TotaalA > ScoreBladRoodCheck[2]:
+                            RoodScoreBladList[0] = TotaalA
+                            break
+                        elif berekeningKeuze == "B" and TotaalB > ScoreBladRoodCheck[2]:
+                            RoodScoreBladList[0] = TotaalB
+                            break
+                        else:
+                           positieError()
+                           HerhalenScoreBlad = True
+        return BlauwScoreBladList, RoodScoreBladList
+
 
 # Code start ---
 dobbelVraag()
@@ -110,6 +160,8 @@ if berekeningKeuze == 'A':
 
     if maximumEnMinimum[0] == maximumEnMinimum[1]:
         waardenIdentiek(TotaalA)
+        scoreBlad()
+        ScoreKeuzeIdentiek = input('Type het nummer waar jij je getal in wilt vullen ')
     else:
         if maximumEnMinimum[0] > maximumEnMinimum[1]:
             positieKeuze(TotaalA)
@@ -120,6 +172,8 @@ elif berekeningKeuze == 'B':
     
     if maximumEnMinimum[0] == maximumEnMinimum[1]:
         waardenIdentiek(TotaalB)
+        scoreBlad()
+        ScoreKeuzeIdentiek = input('Type het nummer waar jij je getal in wilt vullen ')
     else:
         if maximumEnMinimum[0] > maximumEnMinimum[1]:
             positieKeuze(TotaalB)
@@ -127,3 +181,4 @@ elif berekeningKeuze == 'B':
             positieKeuze(TotaalB)
 else:
     error()
+scoreBlad()
