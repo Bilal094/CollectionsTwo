@@ -1,7 +1,8 @@
 import random, time
 from random import choice
 from time import sleep
-# Assignments
+# Assignments ---
+
 BlauwDobbelsteen = [1, 2, 3, 4, 5, 6]
 RoodDobbelsteen = [1, 2, 3, 4, 5, 6]
 WitDobbelsteen = [1, 1, 1, 2, 2, 3]
@@ -11,7 +12,7 @@ RoodScoreBladList = [RoodMin2, " ", " ", " ", " ", " ", " ", " ", " ", " "]
 BlauwScoreBladList = [" ", " ", " ", " ", " ", " ", " ", " ", " ", BlauwMin2]
 WitScoreBladList = [" ", " ", " ", " ", " "]
 ScoreBladPositieListRood = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-ScoreBladPositieListBlauw = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+ScoreBladPositieListBlauw = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
 ScoreBladRoodCheck = [-2, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ScoreBladBlauwCheck = [0, 0, 0, 0, 0, 0, 0, 0, 0, -2]
 maximumEnMinimum = []
@@ -32,44 +33,12 @@ for a in ScoreBladPositieListBlauw:
 for a in ScoreBladPositieListRood:
     ScorePositieRood += ' '+str(a)+'  '
 
-    
+# User Defined Functions ---
 def error():
     print('Type a.u.b een gegeven keuze')
 
-def positieError():
-    print('Jouw getal is groter dan de getallen ernaast! Je moet het op volgorde invullen.')
-
-def waardenIdentiek(keuze):
-        print(f'Je hebt gekozen voor het getal {keuze}')
-        sleep(1)
-        print('De gerolde waarden van de rode en de blauwe dobbelsteen zijn gelijk aan elkaar')
-        sleep(1)
-        print('Je mag kiezen in welk scoreblad je jouw getal wilt invullen')
-
-def berekeningAenB():
-    if maximumEnMinimum[0] < maximumEnMinimum[1]:
-        print(f'De rode dobbelsteen ({RoodNummer}) heeft het laagst gerolde waarde, dus vul je getal in de rode scoreblad!')
-    elif maximumEnMinimum[1] < maximumEnMinimum[0]:
-        print(f'De blauwe dobbelsteen ({BlauwNummer}) heeft het laagst gerolde waarde, dus vul je getal in de blauwe scoreblad!')
-    else:
-        error()
-
-def dobbelVraag():
-    global RoodNummer, BlauwNummer, WitNummer
-    DobbelHerhalen = True
-    while DobbelHerhalen:
-        Dobbel = input(f'Type \'1\' om te dobbelen met de 3 dobbelstenen ')
-        if Dobbel == '1':
-            RoodNummer = choice(RoodDobbelsteen)
-            BlauwNummer = choice(BlauwDobbelsteen)
-            WitNummer = choice(WitDobbelsteen)
-            print(f'Rode dobbelsteen resultaat: {RoodNummer}')
-            print(f'Blauwe dobbelsteen resultaat: {BlauwNummer}')
-            print(f'Witte dobbelsteen resultaat: {WitNummer}')
-            DobbelHerhalen = False
-        else:
-            error()
-            DobbelHerhalen = True
+def positionError():
+    print('Jouw getal is kleiner dan de getallen ernaast/groter dan de getallen ervoor! Je moet het op volgorde invullen.')
 
 def scoreBlad():
     print('------------------------ Score blad ------------------------')
@@ -79,66 +48,63 @@ def scoreBlad():
     print('Positie = '+ ScorePositieBlauw)
     print('Wit = ' + ScoreWit)
 
-def positieKeuze(keuze):
-    global ScoreKeuze
-    print(f'Je hebt gekozen voor het getal {keuze}')
+def valueIdentical():
+        print('De rode en blauwe dobbelsteen hebben dezelfde waarden')
+        sleep(1)
+        scoreBlad()
+        positionQuestionIdentical = input('In welk scoreblad wil jij jouw getal invullen? A) blauw, B) rood ').upper()
+
+def determineScoreList(rollednumber, dice, color):
+    print(f'Je hebt gekozen voor {rollednumber}')
     sleep(1)
-    maximumEnMinimum.pop(2)
-    berekeningAenB()
-    sleep(1.5)
-    scoreBlad()
-    HerhalenScore = True
-    if maximumEnMinimum[0] > maximumEnMinimum[1]:
-        print()
-        ScoreKeuzeBlauw = input('Type het nummer waar jij je getal in wilt vullen (Blauw) ')
-        if ScoreKeuzeBlauw in ScoreBladPositieListBlauw:
-            while HerhalenScore:
+    print(f'De {color} dobbelsteen heeft het laagst gerolde waarde ({dice})')
+    sleep(1)
+    print(f'Kies de positie in de {color} scoreblad waar jij je nummer in wilt vullen.')
 
-                if ScoreKeuzeBlauw == "1":
-                    HerhalenScore = False
-                    HerhalenScoreBlad = True
-                    while HerhalenScoreBlad:
-                        if berekeningKeuze == "A" and TotaalA > ScoreBladBlauwCheck[2]:
-                            BlauwScoreBladList[0] = TotaalA
-                            break
-                        elif berekeningKeuze == "B" and TotaalB > ScoreBladBlauwCheck[2]:
-                            BlauwScoreBladList[0] = TotaalB
-                            break
-                        else:
-                           positieError()
-                           HerhalenScoreBlad = True
-                           
+def numberCompare(choice):
+        if maximumEnMinimum[0] < maximumEnMinimum[1]:
+            determineScoreList(choice, RoodNummer, 'rode')
+        elif maximumEnMinimum[0] > maximumEnMinimum[1]:
+            determineScoreList(choice, BlauwNummer, 'blauwe')
 
+def checkPosition(rollednumber, scorelist, scoreposition):
+
+    if scorelist[scoreposition] == " ":
+        index = scoreposition
+        while True:
+            index += 1
+            if list[index] != " ":
+                if rollednumber >= scorelist[index]:
+                    index = scoreposition
+                    while True:
+                        index -= 1
+                        if list[index] != " ":
+                            if rollednumber <= scorelist[index]:
+                                return True
+                            else:
+                                return False
                 else:
-                    error()
-                    HerhalenScore = True
-
-
-    elif maximumEnMinimum[0] < maximumEnMinimum[1]:
-        print()
-        ScoreKeuzeRood = input('Type het nummer waar jij je getal in wilt vullen (Rood) ')
-        if ScoreKeuzeRood in ScoreBladPositieListRood:
-            while HerhalenScore:
-
-                if ScoreKeuzeRood == "1":
-                    HerhalenScore = False
-                    HerhalenScoreBlad = True
-                    while HerhalenScoreBlad:
-                        if berekeningKeuze == "A" and TotaalA > ScoreBladRoodCheck[2]:
-                            RoodScoreBladList[0] = TotaalA
-                            break
-                        elif berekeningKeuze == "B" and TotaalB > ScoreBladRoodCheck[2]:
-                            RoodScoreBladList[0] = TotaalB
-                            break
-                        else:
-                           positieError()
-                           HerhalenScoreBlad = True
-        return BlauwScoreBladList, RoodScoreBladList
-
-
+                    return False
+    else:
+        return False
+        
 # Code start ---
-dobbelVraag()
+DobbelHerhalen = True
+while DobbelHerhalen:
+    Dobbel = input(f'Type \'1\' om te dobbelen met de 3 dobbelstenen ')
+    if Dobbel == '1':
+        RoodNummer = choice(RoodDobbelsteen)
+        BlauwNummer = choice(BlauwDobbelsteen)
+        WitNummer = choice(WitDobbelsteen)
+        print(f'Rode dobbelsteen resultaat: {RoodNummer}')
+        print(f'Blauwe dobbelsteen resultaat: {BlauwNummer}')
+        print(f'Witte dobbelsteen resultaat: {WitNummer}')
+        DobbelHerhalen = False
+    else:
+        error()
+        DobbelHerhalen = True
 print()
+
 sleep(2)
 TotaalA = BlauwNummer + RoodNummer + WitNummer
 TotaalB = BlauwNummer + RoodNummer - WitNummer
@@ -157,28 +123,25 @@ print(f'D) Hoogst gerolde dobbelsteen - laagst gerolde dobbelsteen = {maxValue} 
 
 berekeningKeuze = input('').upper()
 if berekeningKeuze == 'A':
+    if maximumEnMinimum[0] == maximumEnMinimum[1]:
+        valueIdentical()
+    else:
+        numberCompare(TotaalA)
+        sleep(1)
+        scoreBlad()
 
-    if maximumEnMinimum[0] == maximumEnMinimum[1]:
-        waardenIdentiek(TotaalA)
-        scoreBlad()
-        ScoreKeuzeIdentiek = input('Type het nummer waar jij je getal in wilt vullen ')
-    else:
-        if maximumEnMinimum[0] > maximumEnMinimum[1]:
-            positieKeuze(TotaalA)
-        elif maximumEnMinimum[1] > maximumEnMinimum[0]:
-            positieKeuze(TotaalA)
-            
 elif berekeningKeuze == 'B':
-    
     if maximumEnMinimum[0] == maximumEnMinimum[1]:
-        waardenIdentiek(TotaalB)
-        scoreBlad()
-        ScoreKeuzeIdentiek = input('Type het nummer waar jij je getal in wilt vullen ')
+        valueIdentical()
     else:
-        if maximumEnMinimum[0] > maximumEnMinimum[1]:
-            positieKeuze(TotaalB)
-        elif maximumEnMinimum[1] > maximumEnMinimum[0]:
-            positieKeuze(TotaalB)
-else:
-    error()
-scoreBlad()
+        numberCompare(TotaalB)
+        sleep(1)
+        scoreBlad()
+
+elif berekeningKeuze == 'C':
+    if maximumEnMinimum[0] == maximumEnMinimum[1]:
+        valueIdentical()
+    else:
+        numberCompare(TotaalC)
+        sleep(1)
+        scoreBlad()
