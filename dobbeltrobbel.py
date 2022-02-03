@@ -1,4 +1,5 @@
 # Import ---
+from hmac import compare_digest
 import random, time
 from random import choice
 from time import sleep
@@ -18,11 +19,11 @@ def error():
 
 def numberComparison(red, blue):
     if red == blue:
-        print('Rood en blauw zijn gelijk aan elkaar, dus je kunt kiezen waar jij jouw gekozen getalin wilt vullen')
+        return 'even'
     elif red > blue:
-        print('Je hebt het hoogst gerold met de rode dobbelsteen, dus je vult jouw gekozen getal in de blauwe rij')
+        return 'blue'
     elif red < blue:
-        print('Je hebt het hoogst gerold met de blauwe dobbelsteen, dus je vult jouw gekozen getal in de rode rij')
+        return 'red'
 
 # Code start ---
 while True:
@@ -48,4 +49,8 @@ numberChoice = input('').upper()
 if numberChoice == 'A':
     print(f'Je hebt gekozen voor optie A ({totalA})')
     sleep(1)
-    numberComparison(redNumber, blueNumber)
+    nC = numberComparison(redNumber, blueNumber)
+    if nC == 'red':
+        print('rood')
+    elif nC == 'blue':
+        print('blauw')
