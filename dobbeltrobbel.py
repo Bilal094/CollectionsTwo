@@ -1,5 +1,4 @@
 # Import ---
-from hmac import compare_digest
 import random, time
 from random import choice
 from time import sleep
