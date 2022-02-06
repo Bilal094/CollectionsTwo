@@ -25,6 +25,23 @@ def numberComparison(red, blue):
     elif red < blue:
         return 'red'
 
+def checkIfPositionTrue(number, position, list):
+    if list[position] == "":
+        index = position
+        while True:
+            index += 1
+            if list[index] != "":
+                if number > list[index] or number == list[index]:
+                    while True:
+                        index -= 1
+                        if list[index] != "":
+                            if number < list[index] or number == list[index]:
+                                return True
+                            else:
+                                return False
+                else:       
+                    return False
+
 # Code start ---
 while True:
     question1 = input('Type \'1\' om te dobbelen ')
@@ -52,5 +69,6 @@ if numberChoice == 'A':
     nC = numberComparison(redNumber, blueNumber)
     if nC == 'red':
         print('rood')
+
     elif nC == 'blue':
         print('blauw')
