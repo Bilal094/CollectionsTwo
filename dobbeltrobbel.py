@@ -1,5 +1,4 @@
 # Import ---
-from ast import ListComp
 import random, time
 from random import choice
 from time import sleep
@@ -28,11 +27,27 @@ def numberComparison(red, blue):
         return 'red'
 
 
+
 def checkPositionRight(number, position, List):
     global isValidR, isValidL
-    if List == blueScore:
-        List.reverse()
     isValidR = False
+
+    if List == blueScore:
+        index = int(position)
+        if List[index] == '':
+            while index < len(List) - 1:
+                index += 1
+                if List[index] != '':
+                    if number >= List[index]:
+                        isValidR = True
+                        return isValidR
+                    else:
+                        return isValidR
+                elif List[index] == len(List) - 1:
+                    isValidR = True
+                    return isValidR
+        return isValidR
+
     if List[int(position)] == '':
         index = int(position)
         while index < len(List) - 1:
@@ -45,10 +60,26 @@ def checkPositionRight(number, position, List):
                 isValidR = True
     return isValidR
 
+
 def checkPositionLeft(number, position, List):
-    if List == blueScore:
-        List.reverse()
     isValidL = False
+
+    if List == blueScore:
+        index = int(position)
+        if List[index] == '':
+            while index < len(List) - 1:
+                if index == 0:
+                    isValidR = True
+                    return isValidR
+                index -= 1
+                if List[index] != '':
+                    if number <= List[index]:
+                        isValidL = True
+                        return isValidL
+                    else:
+                        return isValidL
+        return isValidL
+
     if List[int(position)] == '':
         index = int(position)
         while index < len(List) - 1:
@@ -61,6 +92,48 @@ def checkPositionLeft(number, position, List):
                 isValidL = True
     return isValidL
 
+def QuestionAandB(total, option):
+
+    print(f'Je hebt gekozen voor optie {option} ({total})')
+    sleep(1)
+    nC = numberComparison(redNumber, blueNumber)
+    if nC == 'red':
+        print('De rode dobbelsteen heeft het laagst gerold')
+        sleep(1)
+        print(redScore)
+
+        positionBoolR = True
+        while positionBoolR:
+            positionChoice = input('Kies waar jij je nummer wilt zetten (0 - 9) of type \'end\' wanneer je jouw nummer nergens in kunt vullen ')
+            if positionChoice == 'end':
+                break
+
+            pCR = checkPositionRight(totalA, positionChoice, redScore)
+            pCL = checkPositionLeft(totalA, positionChoice, redScore)
+            if pCR == True and pCL == True:
+                redScore[int(positionChoice)] = totalA
+                positionBoolR = False
+            elif pCR == False and pCL == False:
+                positionError()
+
+    elif nC == 'blue':
+        print('De blauwe dobbelsteen heeft het laagst gerold')
+        sleep(1)
+        print(blueScore)
+
+        positionBoolB = True
+        while positionBoolB:
+            positionChoice = input('Kies waar jij je nummer wilt zetten (0 - 9) (Omgekeerd!) of type \'end\' wanneer je jouw nummer nergens in kunt vullen ')
+            if positionChoice == 'end':
+                break
+
+            pCR = checkPositionRight(totalA, positionChoice, blueScore)
+            pCL = checkPositionLeft(totalA, positionChoice, blueScore)
+            if pCR == True and pCL == True:
+                blueScore[int(positionChoice)] = totalA
+                positionBoolB = False
+            elif pCR == False and pCL == False:
+                positionError()
 # Code start ---
 while game < 10:
     while True:
@@ -84,87 +157,7 @@ while game < 10:
     print()
     numberChoice = input('').upper()
     if numberChoice == 'A':
-        print(f'Je hebt gekozen voor optie A ({totalA})')
-        sleep(1)
-        nC = numberComparison(redNumber, blueNumber)
-        if nC == 'red':
-            print('De rode dobbelsteen heeft het laagst gerold')
-            sleep(1)
-            print(redScore)
-
-            positionBoolR = True
-            while positionBoolR:
-                positionChoice = input('Kies waar jij je nummer wilt zetten (0 - 9) of type \'end\' wanneer je jouw nummer nergens in kunt vullen ')
-                if positionChoice == 'end':
-                    break
-
-                pCR = checkPositionRight(totalA, positionChoice, redScore)
-                pCL = checkPositionLeft(totalA, positionChoice, redScore)
-                if pCR == True and pCL == True:
-                    redScore[int(positionChoice)] = totalA
-                    positionBoolR = False
-                elif pCR == False and pCL == False:
-                    positionError()
-
-        elif nC == 'blue':
-            print('De blauwe dobbelsteen heeft het laagst gerold')
-            sleep(1)
-            print(blueScore)
-
-            positionBoolB = True
-            while positionBoolB:
-                positionChoice = input('Kies waar jij je nummer wilt zetten (0 - 9) (Omgekeerd!) of type \'end\' wanneer je jouw nummer nergens in kunt vullen ')
-                if positionChoice == 'end':
-                    break
-
-                pCR = checkPositionRight(totalA, positionChoice, blueScore)
-                pCL = checkPositionLeft(totalA, positionChoice, blueScore)
-                if pCR == True and pCL == True:
-                    blueScore[int(positionChoice)] = totalA
-                    positionBoolB = False
-                elif pCR == False and pCL == False:
-                    positionError()
-
+        QuestionAandB(totalA, 'A')
     elif numberChoice == 'B':
-
-        print(f'Je hebt gekozen voor optie B ({totalB})')
-        sleep(1)
-        nC = numberComparison(redNumber, blueNumber)
-        if nC == 'red':
-            print('De rode dobbelsteen heeft het laagst gerold')
-            sleep(1)
-            print(redScore)
-
-            positionBoolR = True
-            while positionBoolR:
-                positionChoice = input('Kies waar jij je nummer wilt zetten (0 - 9) of type \'end\' wanneer je jouw nummer nergens in kunt vullen ')
-                if positionChoice == 'end':
-                    break
-
-                pCR = checkPositionRight(totalB, positionChoice, redScore)
-                pCL = checkPositionLeft(totalB, positionChoice, redScore)
-                if pCR == True and pCL == True:
-                    redScore[int(positionChoice)] = totalB
-                    positionBoolR = False
-                elif pCR == False and pCL == False:
-                    positionError()
-
-        elif nC == 'blue':
-            print('De blauwe dobbelsteen heeft het laagst gerold')
-            sleep(1)
-            print(blueScore)
-
-            positionBoolB = True
-            while positionBoolB:
-                positionChoice = input('Kies waar jij je nummer wilt zetten (0 - 9) (Omgekeerd!) of type \'end\' wanneer je jouw nummer nergens in kunt vullen ')
-                if positionChoice == 'end':
-                    break
-
-                pCR = checkPositionRight(totalB, positionChoice, blueScore)
-                pCL = checkPositionLeft(totalB, positionChoice, blueScore)
-                if pCR == True and pCL == True:
-                    blueScore[int(positionChoice)] = totalB
-                    positionBoolB = False
-                elif pCR == False and pCL == False:
-                    positionError()
+        QuestionAandB(totalB, 'B')
     game += 1
