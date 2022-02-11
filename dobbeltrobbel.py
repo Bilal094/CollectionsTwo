@@ -1,9 +1,10 @@
 # Import ---
 import random, time
+from string import whitespace
 from random import choice
 from time import sleep
 # Assignments ---
-game = 0
+game = True
 Red2 = -2
 Blue2 = -2
 redDice = [1, 2, 3, 4, 5, 6]
@@ -11,7 +12,7 @@ blueDice = [1, 2, 3, 4, 5, 6]
 whiteDice = [1, 1, 1, 2, 2, 3]
 redScore = [Red2, '', '', '', '', '', '', '', '', '']
 blueScore = ['', '', '', '', '', '', '', '', '', Blue2]
-whiteScore = ['','','','','']
+whiteScore = []
 highAndLow = []
 # Functions ---
 
@@ -93,7 +94,7 @@ def checkPositionLeft(number, position, List):
 
     if List[int(position)] == '':
         index = int(position)
-        while index < len(List) - 1:
+        while index <= len(List) - 1:
             index -= 1
             if List[index] != '':
                 if number >= List[index]:
@@ -114,7 +115,7 @@ def numberPlacement(total, List):
             if pCR == True and pCL == True:
                 List[int(positionChoice)] = total
                 positionBool = False
-            elif pCR == False and pCL == False:
+            elif pCR == False and pCL == True or pCR == True and pCL == False or pCR == False and pCL == False:
                 positionError()
 
 def Main(total, option):
@@ -143,18 +144,40 @@ def Main(total, option):
             print(blueScore)
             numberPlacement(total, blueScore)
 
+def pointCalculate(list1, list2, list3):
+    print('De witte lijst is gevuld/je hebt er voor gekozen om te stoppen')
+    sleep(1)
+    emptySpot = 0
+    for n,m in list1,list2:
+        print(zip(n,m))
+
 # Code start ---
 
-while game < 10:
+while game:
+
     while True:
-        question1 = input('Type \'1\' om te dobbelen ')
+        print('De stand van zaken')
+        print(f'Rood = {redScore}')
+        print(f'Blauw = {blueScore}')
+        print(f'Wit = {whiteScore}')
+        question1 = input('Type \'1\' om te dobbelen. Type \'stop\' als je wilt stoppen ')
         if question1 == '1':
             redNumber = choice(redDice)
             blueNumber = choice(blueDice)
             whiteNumber = choice(whiteDice)
             break
+        elif question1 == 'stop':
+            pointCalculate(redScore, blueScore, whiteScore)
+            game = False
+            break
         else:
             error()
+    
+    if game == False:
+        break
+    elif len(whiteScore) == 5:
+        pointCalculate(redScore, blueScore, whiteScore)
+        break
 
     print(f'Je gedobbelde waarden zijn {redNumber} (rood), {blueNumber} (blauw), {whiteNumber} (wit). Je kunt uit de volgende berekeningen kiezen:')
 
@@ -183,11 +206,11 @@ while game < 10:
             break
         elif numberChoice == 'C':
             Main(totalC, 'C')
+            whiteScore.append(whiteNumber)
             break
         elif numberChoice == 'D':
             Main(totalD, 'D')
+            whiteScore.append(whiteNumber)
             break
         else:
             error()
-
-    game += 1
