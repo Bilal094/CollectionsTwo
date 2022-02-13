@@ -1,6 +1,5 @@
 # Import ---
 import random, time
-from string import whitespace
 from random import choice
 from time import sleep
 # Assignments ---
@@ -14,6 +13,7 @@ redScore = [Red2, '', '', '', '', '', '', '', '', '']
 blueScore = ['', '', '', '', '', '', '', '', '', Blue2]
 whiteScore = []
 highAndLow = []
+total1 = []
 # Functions ---
 
 def positionError():
@@ -144,16 +144,63 @@ def Main(total, option):
             print(blueScore)
             numberPlacement(total, blueScore)
 
-def pointCalculate(list1, list2, list3):
+def pointCalculate(List1, List2, List3):
+    print()
     print('De witte lijst is gevuld/je hebt er voor gekozen om te stoppen')
     sleep(1)
     emptySpot = 0
-    for n,m in list1,list2:
-        print(zip(n,m))
+    for i in List1:
+        if i == '':
+            emptySpot += 1
+    for i in List2:
+        if i == '':
+            emptySpot += 1
 
+    # Subtotal 1
+    List1 = [x if x != '' else 0 for x in List1]
+    List2 = [x if x != '' else 0 for x in List2]
+    for x in range(10):
+        y = List1[x] * List2[x]
+        total1.append(y)
+    Sum = sum(total1)
+
+    # Subtotal 2
+    sumWhite = sum(whiteScore)
+    total2 = sumWhite * emptySpot
+
+    total3 = Sum - total2
+
+    print(f'Jouw eindscore is {total3}')
 # Code start ---
-
+print('Dobbeltrobbel werkt alsvolgt:')
+sleep(1)
+print('Je typt op \'1\' om te dobbelen')
+sleep(1)
+print('Het hoogst gerolde waarde van de rode/blauwe dobbelsteen bepaalt in welk scoreblad jij jouw nummer in moet vullen')
+sleep(1.5)
+print('Bijvoorbeeld, als de rode dobbelsteen het hoogst heeft gerold, moet je in de rode scoreblad gaan vullen')
+sleep(1.5)
+print('Wanneer de rode en blauwe dobbelsteen hetzefde hebben gerold, dan mag jij kiezen in welk scoreblad jij jouw nummer invult')
+sleep(1.5)
+print('De index van de rode en blauwe scoreblad begint bij 0. Bij de blauwe scoreblad is het index hetzelfde maar omgekeerd')
+sleep(1.5)
+print('Stel dat jij de nummer 2 naast -2 wilt zetten (in de blauwe scoreblad!), dan moet je kiezen voor positie 8, niet 1')
+sleep(1.5)
+print('Jouw nummer moet wel op een correcte positie gezet worden.\nHet volgende nummer mag niet kleiner zijn en de nummers ervoor mogen niet groter zijn dan de nummer die jij hebt')
+sleep(1.5)
+print('Dezelfde nummers mogen elkaar wel opvolgen')
+sleep(1.5)
+print('Wanneer jij jouw nummer nergens in kunt vullen, type dan \'end\'')
+sleep(1)
+print('Het spel stopt als jij \'stop\' typet of wanneer de witte scoreblad vol is. De witte scoreblad wordt gevuld wanneer jij optie c of d kiest, vervolgens wordt jouw score berekend')
+sleep(1)
+print('Succes!')
 while game:
+
+    if len(whiteScore) == 5:
+        pointCalculate(redScore, blueScore, whiteScore)
+        game = False
+        break
 
     while True:
         print('De stand van zaken')
