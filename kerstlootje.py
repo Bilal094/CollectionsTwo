@@ -2,7 +2,8 @@ import random
 from random import shuffle, choice
 namesWithDuplicates = []
 namesparticipants = []
-names = []
+namesinhat = []
+usedNames = []
 main = True
 lootLoop = True
 
@@ -32,15 +33,23 @@ while True:
             namesWithDuplicates.clear()
 
 if lootLoop == True:
-    names = [*namesparticipants]
+    namesinhat = namesparticipants.copy()
     while lootLoop:
         shuffle(namesparticipants)
+        shuffle(namesinhat)
         while True:
             loot1 = choice(namesparticipants)
-            loot2 = choice(names)
+            loot2 = choice(namesinhat)
+            if len(namesinhat) == 2:
+                if loot1 == loot2:
+                    newloot1 = choice(usedNames)
+                    namesparticipants.append(newloot1)
             if loot1 != loot2:
-                namesparticipants.remove(loot1)
-                names.remove(loot2)
                 print(f'{loot1} heeft een lootje van {loot2}')
+                usedNames.append(loot1)
+                namesparticipants.remove(loot1)
+                namesinhat.remove(loot2)
                 break
+        if len(namesinhat) == 0:
+            lootLoop = False
             break
