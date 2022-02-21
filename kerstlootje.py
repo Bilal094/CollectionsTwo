@@ -40,16 +40,19 @@ if lootLoop == True:
         while True:
             loot1 = choice(namesparticipants)
             loot2 = choice(namesinhat)
-            if len(namesinhat) == 2:
-                if loot1 == loot2:
+
+            if loot1 == loot2:
+                if len(namesinhat) == 1:
                     newloot1 = choice(usedNames)
                     namesparticipants.append(newloot1)
+
             if loot1 != loot2:
                 print(f'{loot1} heeft een lootje van {loot2}')
                 usedNames.append(loot1)
                 namesparticipants.remove(loot1)
                 namesinhat.remove(loot2)
                 break
+            
         if len(namesinhat) == 0:
             lootLoop = False
             break
